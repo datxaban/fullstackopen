@@ -1,0 +1,46 @@
+{
+  "notes": [
+    {
+      "id": 1,
+      "content": "custom-hooks are awesome!"
+    },
+    {
+      "id": 2,
+      "content": "best feature ever <3"
+    },
+    {
+      "content": "My first note",
+      "id": 3
+    },
+    {
+      "content": "My second note",
+      "id": 4
+    },
+    {
+      "content": "new note",
+      "id": 5
+    }
+  ],
+  "persons": [
+    {
+      "id": 1,
+      "name": "mluukkai",
+      "number": "040-5483923"
+    },
+    {
+      "id": 2,
+      "name": "hellas",
+      "number": "012-123123"
+    },
+    {
+      "name": "Dat Doan",
+      "number": "123456789",
+      "id": 3
+    },
+    {
+      "name": "name",
+      "number": "1234",
+      "id": 4
+    }
+  ]
+}
