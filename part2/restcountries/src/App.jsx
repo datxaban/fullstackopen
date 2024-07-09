@@ -5,6 +5,10 @@ const App = () => {
   const [countries, setCountries] = useState([])
   const [filteredCountries, setFilteredCountries] = useState([])
   const [filter, setFilter] = useState(null)
+  const [weather, setWeather] = useState(null)
+  const [wind, setWind] = useState(0)
+  const [temperature, setTemperature] = useState(0)
+  const [icon, setIcon] = useState('')
 
   useEffect(() => {
     countriesService
@@ -20,6 +24,20 @@ const App = () => {
       setFilteredCountries(filtered)
     }
   }, [filter])
+
+  useEffect(() => {
+    if(filteredCountries.length === 1){
+      const city = filteredCountries[0].capital[0]
+      countriesService
+        .getWeather(city)
+        .then(weather => {
+          setWeather(weather)
+          setIcon(weather.weather[0].icon)
+          setWind((weather.wind.speed/3.6).toFixed(1)); 
+          setTemperature((weather.main.temp - 273.15).toFixed(1));
+        })
+    }
+  }, [filteredCountries])
 
 
   const handleFilter = (event) => {
@@ -42,7 +60,6 @@ const App = () => {
           <p key={country.name.common}>{country.name.common} <button onClick={()=>handleShow(country.name.common)}> show </button>  </p>
         )}
         {filteredCountries.length === 1 && 
-          // <p>{filteredCountries[0].name.common}</p>
           <>
             <h1>{filteredCountries[0].name.common}</h1>
             <div>capital {filteredCountries[0].capital[0]}</div>
@@ -52,23 +69,18 @@ const App = () => {
               {Object.keys(filteredCountries[0].languages).map(key => <li key={key}>{filteredCountries[0].languages[key]}</li>)}
             </ul>
             <img src={filteredCountries[0].flags.png} alt="Flag" />
+            {weather &&
+              <>
+                <h2>Weather in {filteredCountries[0].capital[0]}</h2>
+                <div><strong>temperature:</strong> {temperature} Celsius</div>
+                <img src={`https://openweathermap.org/img/wn/${icon}@2x.png`} alt="Flag" />
+                <div><strong>wind:</strong> {wind} m/s</div>
+              </>
+            
+            }
           </>
         }
       </div>
-      {/* <div>
-        {!!isSingle &&
-          <>
-            <h1>{name}</h1>
-            <div>capital {captical[0]}</div>
-            <div>area {area}</div>
-            <h2>languages</h2>
-            <ul>
-              {languages.map(language => <li key={language.name}>{language}</li>)}
-            </ul>
-            <img src={flag} alt="Flag" />
-          </> 
-        }
-      </div> */}
     </>
   )
 }
